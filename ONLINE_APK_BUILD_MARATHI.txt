@@ -1,0 +1,14 @@
+RAJSHREE SHOES - ONLINE APK BUILD (Marathi)
+
+Ya project madhun APK online tayar karanyasathi GitHub account lagel. APK ya ZIP madhye aadhich tayar nahi.
+
+1. https://github.com var sign in kara / account tayar kara.
+2. New repository kara. Udaharan: Rajshree-Upper-Production
+3. Ya ZIP madhil folder ughada ani tyatil sarva files/folders repository chya root madhye upload kara. (app, .github, build.gradle, settings.gradle ityadi)
+4. GitHub repository madhye Actions tab ughada.
+5. 'Build Rajshree Shoes APK' workflow nivda.
+6. 'Run workflow' daba ani build purna hoiparyant thamba.
+7. Build yashasvi zalyavar workflow run chya page var Artifacts madhun 'Rajshree-Upper-Production-APK' download kara.
+8. Download keleli artifact ZIP extract kara; tyat app-debug.apk asel. Ti mobile la pathavun install kara.
+
+Tip: GitHub account password/token konalahi deu naka. APK build honyachi khatri build run yashasvi zalyavarach hote.

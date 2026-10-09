@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="mr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#173b67">
+<title>Footwear Upper Production</title>
+<style>
+:root{--navy:#173b67;--blue:#2463a6;--bg:#f3f6fa;--line:#dce4ee;--ink:#182536;--muted:#617187;--green:#177245}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,"Noto Sans Devanagari",sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--navy);color:#fff;padding:18px 16px}header h1{font-size:20px;margin:0 0 5px}header p{margin:0;font-size:13px;opacity:.9}
+nav{display:flex;gap:7px;overflow:auto;padding:10px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:2}
+nav button{white-space:nowrap;border:1px solid var(--line);background:#fff;padding:10px 12px;border-radius:9px;font-weight:700;color:var(--navy)}
+nav button.active{background:var(--navy);color:#fff}
+main{max-width:1050px;margin:0 auto;padding:14px}
+.panel{display:none}.panel.active{display:block}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:13px;box-shadow:0 2px 8px #18385a0a}
+h2{font-size:18px;margin:0 0 13px}h3{font-size:15px;margin:0 0 10px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}
+input,select{width:100%;padding:11px;border:1px solid #cbd6e2;border-radius:8px;font-size:15px;background:white;color:var(--ink)}
+button.primary{background:var(--blue);color:white;border:0;border-radius:9px;padding:12px 15px;font-weight:700;font-size:14px;cursor:pointer}
+button.secondary{background:#edf3f9;color:var(--navy);border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-weight:700}\n.entry-action{display:inline-block!important;visibility:visible!important;background:#e8f1ff;color:#174b91;border:1px solid #7ea8e8;border-radius:7px;padding:8px 10px;font-weight:700;margin:2px;cursor:pointer}.delete-action{background:#fff0f0;color:#a51f2b;border-color:#e7a1a7}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.note{font-size:12px;color:var(--muted);line-height:1.5}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.stat{background:#f5f8fc;border:1px solid var(--line);border-radius:10px;padding:10px}.stat small{display:block;color:var(--muted);font-size:11px}.stat b{font-size:20px;display:block;margin-top:5px}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px 7px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--muted);font-weight:700;background:#f7f9fc}
+.tablewrap{overflow:auto}
+.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#e7f5ed;color:var(--green);font-size:11px;font-weight:700}
+.empty{color:var(--muted);font-size:13px;padding:12px 0}
+#toast{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);background:#172b44;color:#fff;padding:11px 16px;border-radius:10px;display:none;max-width:90%;z-index:9}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat b{font-size:17px}main{padding:10px}.card{padding:12px}}
+</style>
+</head>
+<body>
+<header><h1>Footwear Upper Production</h1><p>Job Card • Cutting • Stitching • Monthly Hishob</p></header>
+<nav id="tabs">
+<button class="active" data-tab="home">Dashboard</button><button data-tab="job">Job Card</button><button data-tab="cut">Cutting Entry</button><button data-tab="stitch">Stitching Entry</button><button data-tab="report">Monthly Hishob</button><button data-tab="setup">Settings</button>
+</nav>
+<main>
+<section class="panel active" id="home">
+<div class="card"><h2>आजचा आढावा</h2><div class="stats"><div class="stat"><small>Job Cards</small><b id="statJobs">0</b></div><div class="stat"><small>Cutting Pairs</small><b id="statCut">0</b></div><div class="stat"><small>Stitching Pairs</small><b id="statStitch">0</b></div></div></div>
+<div class="card"><h2>Job Card स्थिती</h2><div id="homeJobs" class="tablewrap"></div></div>
+<div class="card"><p class="note">ही प्राथमिक डेमो आवृत्ती आहे. नोंदी या ब्राउझरमध्ये जतन होतात. वेगवेगळ्या मोबाईलवर ऑनलाइन डेटा सिंक, सुरक्षित लॉगिन आणि Android APK साठी पुढील विकास आवश्यक आहे.</p></div>
+</section>
+<section class="panel" id="job">
+<div class="card"><h2>नवीन Job Card</h2>
+<div class="grid">
+<div><label>Job Card No.</label><input id="jNo" placeholder="उदा. 22"></div>
+<div><label>Design / Model</label><select id="jModel"></select></div>
+<div><label>Customer / Party</label><input id="jCustomer" placeholder="ग्राहकाचे नाव"></div>
+<div><label>Material</label><input id="jMaterial" placeholder="उदा. Barton leather"></div>
+<div><label>Footwear Type</label><select id="jType"><option value="Gents">Gents</option><option value="Ladies">Ladies</option></select></div>
+<div><label>Job Card Date</label><input id="jDate" type="date"></div>
+</div>
+<h3 style="margin-top:16px">साइजप्रमाणे आवश्यक जोड्या</h3><div id="sizeInputs" class="grid"></div>
+<div class="actions"><button class="primary" onclick="saveJob()">Job Card Save करा</button><button class="secondary" onclick="clearJob()">Clear</button></div>
+</div>
+<div class="card"><h2>नोंदवलेले Job Cards</h2><div id="jobTable" class="tablewrap"></div></div>
+</section>
+<section class="panel" id="cut">
+<div class="card"><h2>Cutting Entry</h2><div class="grid">
+<div><label>तारीख</label><input id="cDate" type="date"></div>
+<div><label>Job Card No.</label><select id="cJob"></select></div>
+<div><label>Cutting Worker</label><select id="cWorker"></select></div>
+<div><label>Model Name</label><select id="cModelSelect"></select></div>
+<div><label>Size</label><select id="cSize"></select></div>
+<div><label>तयार जोड्या</label><input id="cQty" type="number" min="1" placeholder="0"></div>
+</div><div class="actions"><button class="primary" onclick="saveEntry('cut')">Cutting नोंदवा</button></div><p class="note">फक्त प्रत्यक्ष तयार झालेल्या जोड्या नोंदवा. पैसे दरानुसार रिपोर्टमध्ये मोजले जातील.</p></div>
+<div class="card"><h2>Cutting नोंदी</h2><p class="note">प्रत्येक नोंदीच्या शेवटच्या कॉलममध्ये निळे ✏️ Edit आणि लाल 🗑 Delete बटण आहे. मोबाईल/लहान स्क्रीनवर टेबल उजवीकडे Scroll करा.</p><div id="cutTable" class="tablewrap"></div></div>
+</section>
+<section class="panel" id="stitch">
+<div class="card"><h2>Stitching Entry</h2><div class="grid">
+<div><label>तारीख</label><input id="sDate" type="date"></div>
+<div><label>Job Card No.</label><select id="sJob"></select></div>
+<div><label>Stitching Worker</label><select id="sWorker"></select></div>
+<div><label>Model Name</label><select id="sModelSelect"></select></div>
+<div><label>Size</label><select id="sSize"></select></div>
+<div><label>पूर्ण जोड्या</label><input id="sQty" type="number" min="1" placeholder="0"></div>
+</div><div class="actions"><button class="primary" onclick="saveEntry('stitch')">Stitching नोंदवा</button><button class="secondary" onclick="saveEntry('stitch',true)">Stitching नोंदवा + WhatsApp हिशोब</button></div><p class="note">दुसरे बटण दाबल्यास नोंद सेव्ह होईल आणि त्या कामगाराचा त्या तारखेचा हिशोब WhatsApp मध्ये उघडेल. मेसेज पाठवण्यासाठी Send दाबा.</p></div>
+<div class="card"><h2>Stitching नोंदी</h2><p class="note">प्रत्येक नोंदीच्या शेवटच्या कॉलममध्ये निळे ✏️ Edit आणि लाल 🗑 Delete बटण आहे. मोबाईल/लहान स्क्रीनवर टेबल उजवीकडे Scroll करा.</p><div id="stitchTable" class="tablewrap"></div></div>
+</section>
+<section class="panel" id="report">
+<div class="card"><h2>Monthly Hishob</h2><div class="grid">
+<div><label>महिना</label><input id="rMonth" type="month"></div>
+<div><label>Daily Report तारीख</label><input id="rDate" type="date"></div>
+<div><label>कामाचा प्रकार</label><select id="rType"><option value="all">सर्व काम</option><option value="cut">Cutting</option><option value="stitch">Stitching</option></select></div>
+<div><label>कामगार</label><select id="rWorker"><option value="all">सर्व कामगार</option></select></div>
+</div><div class="actions"><button class="primary" onclick="renderReports()">Report दाखवा</button><button class="secondary" onclick="sendWorkerWhatsApp()">आजचा हिशोब WhatsApp करा</button><button class="secondary" onclick="window.print()">Print / PDF</button><button class="secondary" onclick="exportCSV()">CSV Export</button></div></div>
+<div class="card"><h2>एकूण हिशोब</h2><div id="reportStats" class="stats"></div></div>
+<div class="card"><h2>तारीखनिहाय नोंदी</h2><div id="reportTable" class="tablewrap"></div></div>
+</section>
+<section class="panel" id="setup">
+<div class="card"><h2>Models / Rates</h2><p class="note">प्रत्येक Model साठी Cutting आणि Stitching चे दर प्रति जोडी भरा. सर्व कामगारांचा हिशोब संबंधित Model च्या दरानुसार होईल.</p>
+<div class="grid"><div><label>Model नाव</label><input id="modelName" placeholder="उदा. FIRE DUTY"></div><div><label>Model Cut Rate (₹/pair)</label><input id="modelCutRate" type="number" min="0" value="0"></div><div><label>Model Stitch Rate (₹/pair)</label><input id="modelStitchRate" type="number" min="0" value="0"></div></div>
+<div class="actions"><button class="primary" onclick="addModel()">Model जोडा</button></div><div id="modelTable" class="tablewrap"></div></div>
+<div class="card"><h2>Workers / कामगारांचे दर</h2><div class="grid"><div><label>कामगाराचे नाव</label><input id="workerName" placeholder="नाव"></div><div><label>मोबाईल नंबर (WhatsApp, 91 सह)</label><input id="workerPhone" inputmode="numeric" placeholder="उदा. 919876543210"></div><div><label>कामाचा प्रकार</label><select id="workerType"><option value="cut">Cutting</option><option value="stitch">Stitching</option></select></div></div>
+<div class="actions"><button class="primary" onclick="addWorker()">कामगार जोडा</button></div><div id="workerTable" class="tablewrap"></div></div>
+<div class="card"><h2>Data Backup</h2><p class="note">डेमोमधील नोंदी JSON फाईलमध्ये डाउनलोड करता येतील. ही फाईल सुरक्षित ठेवा.</p><div class="actions"><button class="secondary" onclick="backup()">Backup डाउनलोड</button><button class="secondary" onclick="resetDemo()">सर्व डेमो डेटा हटवा</button></div></div>
+</section>
+</main><div id="toast"></div>
+<script>
+const $=id=>document.getElementById(id);
+const today=new Date(); const iso=today.getFullYear()+"-"+String(today.getMonth()+1).padStart(2,"0")+"-"+String(today.getDate()).padStart(2,"0");
+const month=iso.slice(0,7);
+let db=JSON.parse(localStorage.getItem("upperProductionDemo")||'{"jobs":[],"entries":[],"models":[{"name":"Model 1","cutRate":0,"stitchRate":0}],"workers":[{"name":"Cutting Worker 1","type":"cut","rate":null},{"name":"Cutting Worker 2","type":"cut","rate":null},{"name":"Stitching Worker 1","type":"stitch","rate":null},{"name":"Stitching Worker 2","type":"stitch","rate":null},{"name":"Stitching Worker 3","type":"stitch","rate":null},{"name":"Stitching Worker 4","type":"stitch","rate":null},{"name":"Stitching Worker 5","type":"stitch","rate":null},{"name":"Stitching Worker 6","type":"stitch","rate":null},{"name":"Stitching Worker 7","type":"stitch","rate":null},{"name":"Stitching Worker 8","type":"stitch","rate":null}]}');
+function save(){db.workers.forEach(w=>{if(w.phone===undefined)w.phone=""});localStorage.setItem("upperProductionDemo",JSON.stringify(db));renderAll()}
+function toast(s){$("toast").textContent=s;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",2600)}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function fmt(n){return Number(n||0).toLocaleString("en-IN",{maximumFractionDigits:2})}
+function sizes(type){return type==="Ladies"?[2,3,4,5,6,7]:[5,6,7,8,9,10,11,12,13]}
+function total(obj){return Object.values(obj||{}).reduce((a,b)=>a+Number(b||0),0)}
+function job(id){return db.jobs.find(j=>j.no===id)}
+function getModelRate(j,kind){let m=db.models.find(m=>m.name===j?.model);return Number(m?.[kind==="cut"?"cutRate":"stitchRate"]||0)}
+function rateFor(e){const j=job(e.jobNo);const modelName=e.modelName||j?.model;const m=db.models.find(x=>x.name===modelName);return Number(m?.[e.type==="cut"?"cutRate":"stitchRate"]||0)}
+function renderSizes(){let t=$("jType").value;$("sizeInputs").innerHTML=sizes(t).map(s=>`<div><label>Size ${s} — आवश्यक जोड्या</label><input type="number" min="0" id="sz${s}" value="0"></div>`).join("");updateEntrySizes()}
+function updateEntrySizes(){["c","s"].forEach(p=>{let prev=$(p+"Size").value;let j=job($(p+"Job").value);let typ=j?.type||"Gents";$(p+"Size").innerHTML=sizes(typ).map(s=>`<option value="${s}">${s}</option>`).join("");if(prev&&sizes(typ).includes(Number(prev)))$(p+"Size").value=prev;const sel=$(p+"ModelSelect");const old=sel.value;sel.innerHTML=db.models.map(m=>`<option value="${esc(m.name)}">${esc(m.name)}</option>`).join("");sel.value=(j&&db.models.some(m=>m.name===j.model))?j.model:(db.models.some(m=>m.name===old)?old:(db.models[0]?.name||""));});}
+function updateRateDisplays(){/* दर आणि रक्कम entry form मध्ये दाखवायची नाही; हिशोब reports मध्ये model rate नुसार होतो. */}
+function saveJob(){let no=$("jNo").value.trim();if(!no)return toast("Job Card No. भरा.");if(job(no))return toast("हा Job Card No. आधीच आहे.");let req={};sizes($("jType").value).forEach(s=>req[s]=Number($("sz"+s)?.value||0));if(total(req)<=0)return toast("किमान एका साइजची quantity भरा.");db.jobs.push({no,model:$("jModel").value,customer:$("jCustomer").value.trim(),material:$("jMaterial").value.trim(),type:$("jType").value,date:$("jDate").value||iso,req});save();$("jNo").value="";$("jCustomer").value="";$("jMaterial").value="";toast("Job Card जतन झाला.")}
+function editJob(no){
+ const j=job(no);if(!j)return toast("Job Card सापडला नाही.");
+ const nextNo=prompt("Job Card No.:",j.no);if(nextNo===null)return;
+ const cleanNo=nextNo.trim();if(!cleanNo)return toast("Job Card No. रिकामा ठेवता येणार नाही.");
+ if(cleanNo!==j.no&&job(cleanNo))return toast("हा Job Card No. आधीच आहे.");
+ let model=prompt("Model Name (Settings मधील नाव):",j.model);if(model===null)return;
+ if(!db.models.some(m=>m.name===model))return toast("Settings मध्ये सेव्ह केलेले Model Name वापरा.");
+ let customer=prompt("Customer / Party:",j.customer||"");if(customer===null)return;
+ let material=prompt("Material:",j.material||"");if(material===null)return;
+ let date=prompt("Job Card Date (YYYY-MM-DD):",j.date||iso);if(date===null)return;
+ if(date&&!/^\d{4}-\d{2}-\d{2}$/.test(date))return toast("तारीख YYYY-MM-DD स्वरूपात भरा.");
+ const newReq={};
+ for(const sz of sizes(j.type)){let v=prompt("Size "+sz+" आवश्यक जोड्या:",String(j.req?.[sz]||0));if(v===null)return;let n=Number(v);if(!Number.isInteger(n)||n<0)return toast("Quantity पूर्णांक आणि 0 किंवा त्यापेक्षा जास्त असावी.");newReq[sz]=n;}
+ if(total(newReq)<=0)return toast("किमान एका साइजची quantity भरा.");
+ for(const e of db.entries.filter(x=>x.jobNo===j.no)){
+   const sum=db.entries.filter(x=>x.jobNo===j.no&&x.type===e.type&&Number(x.size)===Number(e.size)).reduce((a,x)=>a+x.qty,0);
+   if(sum>Number(newReq[e.size]||0))return toast("नोंदवलेल्या जोड्यांपेक्षा quantity कमी करता येणार नाही. आधी संबंधित entries बदला.");
+ }
+ const oldNo=j.no;j.no=cleanNo;j.model=model;j.customer=customer;j.material=material;j.date=date||iso;j.req=newReq;
+ if(oldNo!==cleanNo)db.entries.forEach(e=>{if(e.jobNo===oldNo)e.jobNo=cleanNo;});
+ save();toast("Job Card Edit करून जतन केला.");
+}
+function deleteJob(no){
+ const j=job(no);if(!j)return;
+ if(db.entries.some(e=>e.jobNo===no))return toast("या Job Card वर Cutting/Stitching नोंदी आहेत. आधी त्या entries delete करा.");
+ if(!confirm("Job Card "+no+" delete करायचा?"))return;
+ db.jobs=db.jobs.filter(x=>x.no!==no);save();toast("Job Card delete केला.");
+}
+function clearJob(){$("jNo").value="";$("jCustomer").value="";$("jMaterial").value="";sizes($("jType").value).forEach(s=>{if($("sz"+s))$("sz"+s).value=0})}
+function saveEntry(type,sendWhatsAppAfterSave=false){let p=type==="cut"?"c":"s",no=$(p+"Job").value,worker=$(p+"Worker").value,size=Number($(p+"Size").value),qty=Number($(p+"Qty").value),date=$(p+"Date").value||iso,modelName=$(p+"ModelSelect").value;if(!no||!worker||qty<=0)return toast("Job Card, कामगार आणि quantity भरा.");let j=job(no);if(!j)return toast("Job Card निवडा.");if(!modelName)return toast("Model Name निवडा.");let done=db.entries.filter(e=>e.jobNo===no&&e.type===type&&Number(e.size)===size).reduce((a,e)=>a+e.qty,0);let req=Number(j.req[size]||0);if(done+qty>req)return toast("या साइजची नोंद Job Card quantity पेक्षा जास्त होत आहे.");if(type==="stitch"){let cutDone=jobProgress(j,"cut",size),stDone=jobProgress(j,"stitch",size);if(stDone+qty>cutDone)return toast("या साइजमध्ये Cutting पूर्ण झालेल्या जोड्यांपेक्षा जास्त Stitching नोंदवता येणार नाही.");}db.entries.push({id:Date.now(),date,jobNo:no,worker,type,size,qty,modelName});$(p+"Qty").value="";save();toast("नोंद जतन झाली.");if(sendWhatsAppAfterSave&&type==="stitch")sendWorkerWhatsAppFor(worker,date)}
+function jobProgress(j,type,size){return db.entries.filter(e=>e.jobNo===j.no&&e.type===type&&(size===undefined||Number(e.size)===Number(size))).reduce((a,e)=>a+e.qty,0)}
+function table(headers,rows){if(!rows.length)return '<div class="empty">अजून नोंदी नाहीत.</div>';return '<table><thead><tr>'+headers.map(h=>`<th>${h}</th>`).join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(c=>`<td>${c}</td>`).join("")+'</tr>').join("")+'</tbody></table>'}
+function renderJobs(){let rows=db.jobs.map(j=>{let req=total(j.req),cut=jobProgress(j,"cut"),st=jobProgress(j,"stitch");return [`${esc(j.no)}<br><small>${esc(j.model)}</small>`,`<span class="pill">${esc(j.type)}</span>`,req,cut,Math.max(0,req-cut),st,Math.max(0,req-st),`<button class="entry-action" onclick="editJob('${esc(j.no)}')">✏️ Edit</button><button class="entry-action delete-action" onclick="deleteJob('${esc(j.no)}')">🗑 Delete</button>`]});$("jobTable").innerHTML=table(["Job Card / Model","Type","Required","Cutting पूर्ण","Cutting बाकी","Stitching पूर्ण","Stitching बाकी","Edit / Delete"],rows);$("homeJobs").innerHTML=table(["Job Card","Model","Required","Cutting पूर्ण","Cutting बाकी","Stitching पूर्ण","Stitching बाकी"],db.jobs.map(j=>[esc(j.no),esc(j.model),total(j.req),jobProgress(j,"cut"),Math.max(0,total(j.req)-jobProgress(j,"cut")),jobProgress(j,"stitch"),Math.max(0,total(j.req)-jobProgress(j,"stitch"))]));}
+function renderEntries(type){let rows=db.entries.filter(e=>e.type===type).slice().sort((a,b)=>b.date.localeCompare(a.date)).map(e=>[e.date,esc(e.jobNo),esc(e.modelName||job(e.jobNo)?.model||""),esc(e.worker),e.size,e.qty,"₹"+fmt(e.qty*rateFor(e)),`<button class="entry-action" onclick="editEntry(${e.id})">✏️ Edit</button><button class="entry-action delete-action" onclick="deleteEntry(${e.id})">🗑 Delete</button>`]);$(type==="cut"?"cutTable":"stitchTable").innerHTML=table(["Date","Job Card","Model Name","Worker","Size","Pairs","Amount","Edit / Delete"],rows)}
+function editEntry(id){
+ const e=db.entries.find(x=>x.id===id);if(!e)return toast("नोंद सापडली नाही.");
+ const j=job(e.jobNo);if(!j)return toast("Job Card सापडला नाही.");
+ const nextDate=prompt("तारीख (YYYY-MM-DD):",e.date);if(nextDate===null)return;
+ const nextWorker=prompt("कामगाराचे नाव (जसे आहे तसे):",e.worker);if(nextWorker===null)return;
+ const nextSize=prompt("Size:",String(e.size));if(nextSize===null)return;
+ const nextQty=prompt("जोड्या:",String(e.qty));if(nextQty===null)return;
+ const qty=Number(nextQty),size=Number(nextSize);
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(nextDate)||!sizes(j.type).includes(size)||!Number.isInteger(qty)||qty<=0)return toast("तारीख, साइज किंवा जोड्या चुकीच्या आहेत.");
+ if(!db.workers.some(w=>w.name===nextWorker&&w.type===e.type))return toast("या विभागातील कामगाराचे नाव Master मध्ये असणे आवश्यक आहे.");
+ const other=db.entries.filter(x=>x.id!==id&&x.jobNo===e.jobNo&&x.type===e.type&&Number(x.size)===size).reduce((a,x)=>a+x.qty,0);
+ if(other+qty>Number(j.req[size]||0))return toast("या साइजची नोंद Job Card quantity पेक्षा जास्त होईल.");
+ if(e.type==="stitch"){
+   const cutQty=jobProgress(j,"cut",size);
+   const stitchedOther=db.entries.filter(x=>x.id!==id&&x.jobNo===e.jobNo&&x.type==="stitch"&&Number(x.size)===size).reduce((a,x)=>a+x.qty,0);
+   if(stitchedOther+qty>cutQty)return toast("Stitching quantity Cutting पूर्ण झालेल्या जोड्यांपेक्षा जास्त होईल.");
+ }
+ e.date=nextDate;e.worker=nextWorker;e.size=size;e.qty=qty;save();toast("नोंद Edit करून जतन केली.");
+}
+function deleteEntry(id){
+ const e=db.entries.find(x=>x.id===id);if(!e)return;
+ if(!confirm(`तारीख ${e.date}, Job Card ${e.jobNo}, ${e.worker}, Size ${e.size}, ${e.qty} जोड्यांची नोंद Delete करायची?`))return;
+ db.entries=db.entries.filter(x=>x.id!==id);save();toast("नोंद Delete केली.");
+}
+function addModel(){let name=$("modelName").value.trim();if(!name)return toast("Model नाव भरा.");if(db.models.some(m=>m.name.toLowerCase()===name.toLowerCase()))return toast("हे Model आधीच आहे.");db.models.push({name,cutRate:Number($("modelCutRate").value||0),stitchRate:Number($("modelStitchRate").value||0)});$("modelName").value="";save();toast("Model जोडले.")}
+function addWorker(){let name=$("workerName").value.trim(),type=$("workerType").value,phone=($("workerPhone")?.value||"").replace(/[^0-9]/g,"");if(!name)return toast("कामगाराचे नाव भरा.");if(db.workers.some(w=>w.name.toLowerCase()===name.toLowerCase()))return toast("हे नाव आधीच आहे.");if(phone&&!(phone.length===12&&phone.startsWith("91")))return toast("WhatsApp नंबर 91 सह 12 अंकांचा भरा.");db.workers.push({name,type,phone,rate:null});$("workerName").value="";if($("workerPhone"))$("workerPhone").value="";save();toast("कामगार जोडला.")}
+function renderSetup(){$("jModel").innerHTML=db.models.map(m=>`<option>${esc(m.name)}</option>`).join("");$("modelTable").innerHTML=table(["Model","Cut ₹/pair","Stitch ₹/pair"],db.models.map(m=>[esc(m.name),`<input type="number" min="0" value="${m.cutRate}" onchange="setModelRate('${encodeURIComponent(m.name)}','cutRate',this.value)">`,`<input type="number" min="0" value="${m.stitchRate}" onchange="setModelRate('${encodeURIComponent(m.name)}','stitchRate',this.value)">`]));$("workerTable").innerHTML=table(["कामगाराचे नाव","कामाचा प्रकार","मोबाईल नंबर (WhatsApp)"],db.workers.map(w=>[esc(w.name),w.type==="cut"?"Cutting":"Stitching",`<input type="tel" placeholder="91xxxxxxxxxx" value="${esc(w.phone||"")}" onchange="setWorkerPhone('${encodeURIComponent(w.name)}',this.value)">`]));}
+function setWorkerPhone(encoded,value){let w=db.workers.find(x=>x.name===decodeURIComponent(encoded));if(!w)return;let phone=String(value||"").replace(/[^0-9]/g,"");if(phone&&!(phone.length===12&&phone.startsWith("91")))return toast("WhatsApp नंबर 91 सह 12 अंकांचा भरा.");w.phone=phone;localStorage.setItem("upperProductionDemo",JSON.stringify(db));toast("WhatsApp नंबर जतन केला.")}
+function setModelRate(name,key,value){let m=db.models.find(m=>m.name===decodeURIComponent(name));if(m)m[key]=Number(value||0);localStorage.setItem("upperProductionDemo",JSON.stringify(db));renderReports();toast("Model rate बदलला.")}
+function renderSelects(){let jobOpts=db.jobs.map(j=>`<option value="${esc(j.no)}">${esc(j.no)} — ${esc(j.model)}</option>`).join("");$("cJob").innerHTML=jobOpts;$("sJob").innerHTML=jobOpts;["c","s"].forEach(p=>{$(p+"Worker").innerHTML=db.workers.filter(w=>w.type===(p==="c"?"cut":"stitch")).map(w=>`<option>${esc(w.name)}</option>`).join("")});let all=[...new Set(db.workers.map(w=>w.name))];$("rWorker").innerHTML='<option value="all">सर्व कामगार</option>'+all.map(w=>`<option>${esc(w)}</option>`).join("");updateEntrySizes()}
+function sendWorkerWhatsAppFor(workerName,date){
+ const w=db.workers.find(x=>x.name===workerName);if(!w)return toast("कामगार सापडला नाही.");
+ if(!w.phone)return toast("Settings मध्ये या कामगाराचा WhatsApp मोबाईल नंबर भरा.");
+ const entries=db.entries.filter(e=>e.date===date&&e.worker===workerName);
+ if(!entries.length)return toast("या तारखेसाठी या कामगाराची नोंद नाही.");
+ const groups={};
+ entries.forEach(e=>{const modelName=e.modelName||job(e.jobNo)?.model||"Model";const key=[e.type,modelName,e.size].join("|");if(!groups[key])groups[key]={type:e.type,modelName,size:e.size,qty:0,amount:0};groups[key].qty+=Number(e.qty||0);groups[key].amount+=Number(e.qty||0)*rateFor(e);});
+ const cut=entries.filter(e=>e.type==="cut"),stitch=entries.filter(e=>e.type==="stitch");
+ const cutQty=cut.reduce((a,e)=>a+Number(e.qty||0),0),stitchQty=stitch.reduce((a,e)=>a+Number(e.qty||0),0);
+ const cutAmt=cut.reduce((a,e)=>a+Number(e.qty||0)*rateFor(e),0),stitchAmt=stitch.reduce((a,e)=>a+Number(e.qty||0)*rateFor(e),0);
+ const lines=[`नमस्कार ${w.name},`,`तुमच्या आजच्या कामाचा हिशोब (${date})`,`--------------------`,`कामाचा तपशील:`];
+ Object.values(groups).forEach(g=>lines.push(`${g.type==="cut"?"Cutting":"Stitching"} | Model: ${g.modelName} | Size: ${g.size} | ${g.qty} जोड्या | रक्कम ₹${fmt(g.amount)}`));
+ lines.push(`--------------------`,`Cutting: ${cutQty} जोड्या | ₹${fmt(cutAmt)}`,`Stitching: ${stitchQty} जोड्या | ₹${fmt(stitchAmt)}`,`एकूण नोंदीतील जोड्या: ${cutQty+stitchQty}`,`एकूण रक्कम: ₹${fmt(cutAmt+stitchAmt)}`);
+ window.open("https://wa.me/"+w.phone+"?text="+encodeURIComponent(lines.join("\\n")),"_blank");
+}
+function sendWorkerWhatsApp(){
+ const date=$("rDate").value||iso,workerName=$("rWorker").value;
+ if(workerName==="all")return toast("आधी कामगार निवडा.");
+ const w=db.workers.find(x=>x.name===workerName);if(!w)return toast("कामगार सापडला नाही.");
+ if(!w.phone)return toast("Settings मध्ये या कामगाराचा WhatsApp मोबाईल नंबर भरा.");
+ const entries=db.entries.filter(e=>e.date===date&&e.worker===workerName);
+ if(!entries.length)return toast("या तारखेसाठी या कामगाराची नोंद नाही.");
+ const groups={};
+ entries.forEach(e=>{
+   const modelName=e.modelName||job(e.jobNo)?.model||"Model";
+   const key=[e.type,modelName,e.size].join("|");
+   if(!groups[key])groups[key]={type:e.type,modelName,size:e.size,qty:0,amount:0};
+   groups[key].qty+=Number(e.qty||0);
+   groups[key].amount+=Number(e.qty||0)*rateFor(e);
+ });
+ const cutQty=entries.filter(e=>e.type==="cut").reduce((a,e)=>a+Number(e.qty||0),0);
+ const stitchQty=entries.filter(e=>e.type==="stitch").reduce((a,e)=>a+Number(e.qty||0),0);
+ const cutAmt=entries.filter(e=>e.type==="cut").reduce((a,e)=>a+Number(e.qty||0)*rateFor(e),0);
+ const stitchAmt=entries.filter(e=>e.type==="stitch").reduce((a,e)=>a+Number(e.qty||0)*rateFor(e),0);
+ const totalAmt=cutAmt+stitchAmt;
+ const lines=[
+   `नमस्कार ${w.name},`,
+   `तुमच्या आजच्या कामाचा हिशोब (${date})`,
+   `--------------------`,
+   `कामाचा तपशील:`
+ ];
+ Object.values(groups).forEach(g=>{
+   lines.push(`${g.type==="cut"?"Cutting":"Stitching"} | Model: ${g.modelName} | Size: ${g.size} | ${g.qty} जोड्या | रक्कम ₹${fmt(g.amount)}`);
+ });
+ lines.push(
+   `--------------------`,
+   `Cutting: ${cutQty} जोड्या | ₹${fmt(cutAmt)}`,
+   `Stitching: ${stitchQty} जोड्या | ₹${fmt(stitchAmt)}`,
+   `एकूण कामाच्या नोंदीतील जोड्या: ${cutQty+stitchQty}`,
+   `एकूण मिळणारी रक्कम: ₹${fmt(totalAmt)}`,
+   `टीप: हा नोंदवलेल्या कामाचा हिशोब आहे.`
+ );
+ window.open("https://wa.me/"+w.phone+"?text="+encodeURIComponent(lines.join("\n")),"_blank");
+}
+function renderReports(){let mo=$("rMonth").value||month,ty=$("rType").value,worker=$("rWorker").value;let arr=db.entries.filter(e=>e.date.startsWith(mo)&&(ty==="all"||e.type===ty)&&(worker==="all"||e.worker===worker)).slice().sort((a,b)=>a.date.localeCompare(b.date));let qty=arr.reduce((a,e)=>a+e.qty,0),amt=arr.reduce((a,e)=>a+e.qty*rateFor(e),0);$("reportStats").innerHTML=`<div class="stat"><small>नोंदी</small><b>${arr.length}</b></div><div class="stat"><small>एकूण जोड्या</small><b>${fmt(qty)}</b></div><div class="stat"><small>देय रक्कम</small><b>₹${fmt(amt)}</b></div>`;$("reportTable").innerHTML=table(["Date","Worker","Type","Job Card","Model","Size","Pairs","Rate","Amount"],arr.map(e=>[e.date,esc(e.worker),e.type==="cut"?"Cutting":"Stitching",esc(e.jobNo),esc(e.modelName||job(e.jobNo)?.model||""),e.size,e.qty,"₹"+fmt(rateFor(e)),"₹"+fmt(e.qty*rateFor(e))]));}
+function exportCSV(){let mo=$("rMonth").value||month,ty=$("rType").value,worker=$("rWorker").value;let arr=db.entries.filter(e=>e.date.startsWith(mo)&&(ty==="all"||e.type===ty)&&(worker==="all"||e.worker===worker));let rows=[["Date","Worker","Type","Job Card","Model","Size","Pairs","Rate","Amount"],...arr.map(e=>[e.date,e.worker,e.type,e.jobNo,e.modelName||job(e.jobNo)?.model,e.size,e.qty,rateFor(e),e.qty*rateFor(e)])];let csv=rows.map(r=>r.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");download(csv,"monthly-hishob-"+mo+".csv","text/csv");}
+function download(content,name,type){let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();URL.revokeObjectURL(a.href)}
+function backup(){download(JSON.stringify(db,null,2),"upper-production-backup.json","application/json")}
+function resetDemo(){if(confirm("सर्व डेमो नोंदी हटवायच्या?")){localStorage.removeItem("upperProductionDemo");location.reload()}}
+function renderAll(){renderSetup();renderSelects();renderJobs();renderEntries("cut");renderEntries("stitch");renderReports();$("statJobs").textContent=db.jobs.length;$("statCut").textContent=db.entries.filter(e=>e.type==="cut").reduce((a,e)=>a+e.qty,0);$("statStitch").textContent=db.entries.filter(e=>e.type==="stitch").reduce((a,e)=>a+e.qty,0)}
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");$(""+b.dataset.tab).classList.add("active")}));
+$("jType").addEventListener("change",renderSizes);["cJob","sJob"].forEach(id=>$(id).addEventListener("change",updateEntrySizes));["cModelSelect","sModelSelect"].forEach(id=>$(id).addEventListener("change",updateRateDisplays));
+db.entries.forEach(e=>{if(!e.modelName)e.modelName=job(e.jobNo)?.model||""});$("jDate").value=$("cDate").value=$("sDate").value=iso;$("rDate").value=iso;$("rMonth").value=month;renderSizes();renderAll();
+</script>
+</body></html>
